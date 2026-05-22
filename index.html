@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NEXT-GEN – Renewal Flow</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Poppins',sans-serif;background:#f0f0eb;color:#16303d;font-size:14px;display:flex;flex-direction:column;}
+
+/* HEADER */
+.hdr{background:#16303d;height:56px;display:flex;align-items:center;padding:0 32px;flex-shrink:0;z-index:100;position:relative;}
+.logo{display:flex;align-items:center;gap:8px;color:#fff;font-size:20px;font-weight:700;margin-right:32px;text-decoration:none;cursor:pointer;}
+.logo-icon{width:28px;height:28px;background:#2ed88e;border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.nav{display:flex;align-items:center;gap:2px;flex:1;}
+.nav-item{color:#dce0e2;font-size:14px;padding:0 14px;height:56px;display:flex;align-items:center;cursor:pointer;border-bottom:2px solid transparent;gap:5px;white-space:nowrap;}
+.nav-item:hover,.nav-item.active{color:#fff;border-bottom-color:#2ed88e;}
+.nav-item.active{font-weight:600;}
+.dropdown-wrap{position:relative;}
+.dd-menu{display:none;position:absolute;top:56px;left:0;background:#16303d;border:1px solid #2a4a58;border-radius:8px;min-width:200px;box-shadow:0 8px 24px rgba(0,0,0,.35);z-index:200;overflow:hidden;}
+.dropdown-wrap:hover .dd-menu{display:block;}
+.dd-item{padding:10px 16px;color:#dce0e2;cursor:pointer;font-size:13px;}
+.dd-item:hover{background:#1e4057;color:#fff;}
+.dd-item.active{background:#1e4057;color:#2ed88e;font-weight:600;}
+.hdr-right{display:flex;align-items:center;gap:16px;margin-left:auto;}
+.hdr-icon{color:#dce0e2;cursor:pointer;position:relative;}
+.notif{position:absolute;top:-4px;right:-4px;background:#f24456;color:#fff;font-size:8px;font-weight:700;width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.lang{color:#dce0e2;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:3px;}
+.avatar{width:28px;height:28px;border-radius:50%;background:#2ed88e;border:1.5px solid #2ed88e;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#16303d;}
+
+/* SCREENS */
+.screen{display:none !important;flex:1;flex-direction:column;overflow:hidden;}
+.screen.active{display:flex !important;}
+
+/* BREADCRUMB */
+.bc{background:#fff;padding:10px 32px;border-bottom:1px solid #e9e9e9;display:flex;align-items:center;gap:6px;font-size:13px;flex-shrink:0;}
+.bc a{color:#3451a3;text-decoration:none;cursor:pointer;}
+.bc a:hover{text-decoration:underline;}
+.bc .sep{color:#b9c1c5;}
+.bc .cur{color:#16303d;font-weight:500;}
+
+/* LISTING SCREEN */
+.listing-body{flex:1;overflow-y:auto;padding:24px 32px;}
+.pg-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;}
+.pg-title{font-size:22px;font-weight:700;color:#231f20;}
+.pg-sub{font-size:13px;color:#7b959c;margin-top:3px;}
+
+/* STATS */
+.stat-row{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:24px;}
+.stat{border-radius:12px;border:1px solid #b9c1c5;padding:20px 24px;}
+.stat .n{font-size:36px;font-weight:300;color:#231f20;line-height:1.1;}
+.stat .l{font-size:14px;font-weight:600;color:#231f20;margin-top:6px;}
+.s-blue{background:rgba(160,199,254,.25);}
+.s-yellow{background:rgba(255,204,61,.35);}
+.s-white{background:#fff;}
+.s-green{background:rgb(212,255,239);}
+.s-pink{background:rgba(242,68,86,.15);}
+
+/* CARD */
+.card{background:#fff;border-radius:12px;border:1px solid #e9e9e9;overflow:hidden;margin-bottom:20px;}
+.card-hd{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f0f0f0;}
+.card-title{font-size:15px;font-weight:700;color:#231f20;display:flex;align-items:center;gap:8px;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;font-family:'Poppins',sans-serif;cursor:pointer;border:none;transition:all .15s;text-decoration:none;}
+.btn-primary{background:#16303d;color:#fff;}
+.btn-primary:hover{background:#1e4057;}
+.btn-green{background:#2ed88e;color:#16303d;}
+.btn-green:hover{background:#25c07d;}
+.btn-outline{background:#fff;color:#16303d;border:1.5px solid #c5c5c5;}
+.btn-outline:hover{border-color:#16303d;}
+.btn-danger{background:#fff;color:#f24456;border:1.5px solid #f24456;}
+.btn-danger:hover{background:#fff0f1;}
+.btn-sm{padding:5px 12px;font-size:12px;border-radius:6px;}
+
+/* TABLE */
+.tbl-wrap{border:1px solid #c6cbd1;border-radius:10px;overflow:hidden;}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:#e8eaec;}
+thead th{padding:9px 16px;font-size:12px;font-weight:500;color:#16303d;text-align:left;white-space:nowrap;}
+tbody tr{border-bottom:1px solid #e9edf2;transition:background .12s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:#f8fffe;}
+tbody td{padding:10px 16px;font-size:13px;color:#231f20;vertical-align:middle;}
+.lnk{color:#3451a3;cursor:pointer;text-decoration:underline;}
+.lnk:hover{color:#1e2f7a;}
+.chk{width:14px;height:14px;border:1px solid #c5c5c5;border-radius:3px;cursor:pointer;}
+
+/* SEARCH / FILTER */
+.search-row{display:flex;gap:6px;margin-bottom:10px;}
+.si{flex:1;border:1px solid #e9e9e9;border-radius:8px;padding:7px 12px 7px 32px;font-size:13px;font-family:'Poppins',sans-serif;color:#231f20;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237b959c' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 10px center;}
+.si:focus{outline:none;border-color:#2ed88e;}
+.sb{background:#e8eaec;border:1px solid #e9e9e9;border-radius:8px;padding:7px 14px;font-size:13px;font-family:'Poppins',sans-serif;color:#16303d;cursor:pointer;}
+.filter-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.filter-l{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.chip{display:inline-flex;align-items:center;gap:4px;background:#eafbf4;border:1px solid #2ed88e;border-radius:36px;padding:3px 10px;font-size:11px;color:#16303d;}
+.chip-x{cursor:pointer;color:#7b959c;font-size:12px;}
+.cl-all{font-size:12px;color:#184145;cursor:pointer;padding:4px 8px;border-radius:4px;}
+.cl-all:hover{background:#f0f0f0;}
+.filter-r{display:flex;align-items:center;gap:4px;}
+.tb-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:4px;font-size:12px;font-weight:500;font-family:'Poppins',sans-serif;color:#16303d;background:transparent;border:none;cursor:pointer;}
+.tb-btn:hover{background:#f0f0f0;}
+
+/* PAGINATION */
+.pag{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid #e9e9e9;background:#fff;font-size:12px;color:#7b959c;}
+.pag-btns{display:flex;align-items:center;gap:4px;}
+.pb{width:26px;height:26px;border-radius:4px;border:1px solid #e9e9e9;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;color:#16303d;}
+.pb:hover{background:#f0f0f0;}
+.pb.act{background:#2ed88e;border-color:#2ed88e;color:#16303d;font-weight:700;}
+.pb:disabled{opacity:.4;cursor:not-allowed;}
+.rsel select{border:1px solid #e9e9e9;border-radius:4px;padding:3px 6px;font-size:12px;font-family:'Poppins',sans-serif;color:#16303d;background:#fff;}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;}
+.b-pending{background:#fff3cd;color:#856404;}.b-pending::before{background:#ffc107;}
+.b-progress{background:#cce5ff;color:#004085;}.b-progress::before{background:#007bff;}
+.b-validated{background:#d4edda;color:#155724;}.b-validated::before{background:#28a745;}
+.b-notice{background:#e2d9f3;color:#4a0e8f;}.b-notice::before{background:#7c3aed;}
+.b-renewed{background:#d4ffee;color:#0a5c3a;}.b-renewed::before{background:#2ed88e;}
+.b-rejected{background:#ffe0e3;color:#891523;}.b-rejected::before{background:#f24456;}
+.b-completed{background:#d4ffee;color:#0a5c3a;}.b-completed::before{background:#2ed88e;}
+.b-awaiting{background:#f0f0f0;color:#555;}.b-awaiting::before{background:#aaa;}
+
+/* ── WIZARD LAYOUT ── */
+.wizard{flex:1;display:flex;overflow:hidden;}
+.wiz-sidebar{width:230px;flex-shrink:0;background:#fff;border-right:1px solid #e9e9e9;overflow-y:auto;display:flex;flex-direction:column;}
+.wiz-sidebar-top{padding:16px 20px;border-bottom:1px solid #f0f0f0;}
+.batch-id{font-size:13px;font-weight:700;color:#231f20;}
+.batch-meta{font-size:11px;color:#7b959c;margin-top:2px;}
+.steps{flex:1;padding:8px 0;}
+.step{display:flex;align-items:center;gap:12px;padding:13px 20px;cursor:pointer;transition:background .15s;border-right:3px solid transparent;}
+.step:hover{background:#f8fffe;}
+.step.active{background:#eafbf4;border-right-color:#2ed88e;}
+.snum{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.snum.done{background:#2ed88e;color:#16303d;}
+.snum.cur{background:#16303d;color:#fff;}
+.snum.todo{background:#e8eaec;color:#7b959c;}
+.slabel{font-size:13px;font-weight:500;color:#231f20;line-height:1.3;}
+.step:not(.active):not(.done-step) .slabel{color:#7b959c;}
+.step.done-step .slabel{color:#16303d;}
+.wiz-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.wiz-content{flex:1;overflow-y:auto;padding:24px 28px;}
+.wiz-footer{flex-shrink:0;background:#fff;border-top:1px solid #e9e9e9;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;}
+
+/* WIZARD STEP PANELS */
+.step-panel{display:none;}
+.step-panel.active{display:block;}
+.step-title{font-size:18px;font-weight:700;color:#231f20;margin-bottom:4px;}
+.step-desc{font-size:13px;color:#7b959c;margin-bottom:20px;}
+
+/* FORMS */
+.fs{background:#fff;border:1px solid #e9e9e9;border-radius:12px;overflow:hidden;margin-bottom:16px;}
+.fs-hd{padding:14px 20px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #f5f5f5;}
+.fs-title{font-size:14px;font-weight:700;color:#231f20;}
+.fs-body{padding:20px;}
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;}
+.fg2{grid-template-columns:repeat(2,1fr);}
+.fg1{grid-template-columns:1fr;}
+.fgrp{display:flex;flex-direction:column;gap:5px;}
+.fgrp.full{grid-column:1/-1;}
+label{font-size:12px;font-weight:500;color:#16303d;}
+label .r{color:#f24456;margin-left:2px;}
+.fi,.fsel,.fta{border:1px solid #e9e9e9;border-radius:8px;padding:8px 12px;font-size:13px;font-family:'Poppins',sans-serif;color:#231f20;background:#fff;width:100%;transition:border .15s;}
+.fi:focus,.fsel:focus,.fta:focus{outline:none;border-color:#2ed88e;}
+.fi:disabled,.fsel:disabled{background:#f5f5f5;color:#7b959c;cursor:not-allowed;}
+.fta{resize:vertical;min-height:80px;}
+.ff{display:flex;justify-content:flex-end;padding-top:12px;}
+
+/* SUMMARY STRIP */
+.sum-strip{display:flex;align-items:center;gap:0;background:#fff;border:1px solid #e9e9e9;border-radius:12px;padding:0;margin-bottom:20px;overflow:hidden;}
+.sum-item{padding:14px 20px;flex:1;border-right:1px solid #e9e9e9;}
+.sum-item:last-child{border-right:none;}
+.sum-item .sl{font-size:10px;color:#7b959c;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.sum-item .sv{font-size:15px;font-weight:700;color:#231f20;}
+
+/* RESULT CARD */
+.res-card{background:#fff;border:1px solid #e9e9e9;border-radius:12px;padding:20px;margin-bottom:12px;display:flex;align-items:center;gap:16px;}
+.res-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;}
+.res-icon.green{background:#d4ffee;}
+.res-icon.yellow{background:rgba(255,204,61,.25);}
+.res-icon.red{background:#ffe0e3;}
+.res-body{flex:1;}
+.res-title{font-size:14px;font-weight:600;color:#231f20;margin-bottom:2px;}
+.res-sub{font-size:12px;color:#7b959c;}
+.res-val{font-size:20px;font-weight:700;}
+
+/* PROGRESS BAR */
+.prog-wrap{background:#e8eaec;border-radius:8px;height:8px;overflow:hidden;margin-bottom:6px;}
+.prog-bar{height:100%;border-radius:8px;background:#2ed88e;transition:width .5s;}
+
+/* TIMELINE */
+.tl{display:flex;flex-direction:column;}
+.tl-item{display:flex;gap:14px;}
+.tl-l{display:flex;flex-direction:column;align-items:center;width:32px;flex-shrink:0;}
+.tl-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.tl-dot.done{background:#2ed88e;color:#16303d;}
+.tl-dot.cur{background:#16303d;color:#fff;}
+.tl-dot.todo{background:#e8eaec;color:#7b959c;}
+.tl-line{width:2px;flex:1;min-height:28px;margin:3px 0;}
+.tl-line.done{background:#2ed88e;}
+.tl-line.todo{background:#e9e9e9;}
+.tl-body{padding-bottom:24px;flex:1;}
+.tl-title{font-size:14px;font-weight:600;color:#231f20;margin-bottom:2px;}
+.tl-sub{font-size:12px;color:#7b959c;line-height:1.5;}
+.tl-time{font-size:11px;color:#b9c1c5;margin-top:3px;}
+
+/* NOTICE */
+.notice-box{background:#fff;border:1px solid #e9e9e9;border-radius:12px;padding:28px 32px;}
+.n-logo{font-size:17px;font-weight:700;color:#16303d;margin-bottom:3px;}
+.n-date{font-size:12px;color:#7b959c;margin-bottom:18px;}
+.n-to{font-size:13px;color:#231f20;line-height:1.6;margin-bottom:14px;}
+.n-body{font-size:13px;color:#231f20;line-height:1.75;margin-bottom:16px;}
+.n-tbl{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:13px;}
+.n-tbl th{background:#e8eaec;padding:8px 12px;text-align:left;font-weight:600;font-size:12px;}
+.n-tbl td{padding:8px 12px;border-bottom:1px solid #f0f0f0;}
+.n-sig{font-size:13px;color:#231f20;margin-top:16px;}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center;}
+.overlay.open{display:flex;}
+.modal{background:#fff;border-radius:16px;width:480px;max-width:95vw;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2);}
+.m-hd{padding:18px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f0f0f0;}
+.m-title{font-size:16px;font-weight:700;color:#231f20;}
+.m-close{background:none;border:none;font-size:20px;cursor:pointer;color:#7b959c;line-height:1;}
+.m-close:hover{color:#231f20;}
+.m-body{padding:24px;}
+.m-ft{padding:16px 24px;display:flex;justify-content:flex-end;gap:10px;border-top:1px solid #f0f0f0;}
+.warn{background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:12px 16px;font-size:13px;color:#856404;margin-bottom:16px;display:flex;gap:8px;align-items:flex-start;}
+
+/* TABS */
+.tabs{display:flex;gap:2px;border-bottom:1px solid #e9e9e9;margin-bottom:18px;}
+.tab{padding:8px 14px;font-size:13px;font-weight:500;color:#7b959c;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:5px;}
+.tab:hover{color:#16303d;}
+.tab.active{color:#16303d;border-bottom-color:#2ed88e;font-weight:600;}
+.tab-dot{width:6px;height:6px;border-radius:50%;background:#f24456;}
+.tc{display:none;}
+.tc.active{display:block;}
+
+/* INFO BOX */
+.info-box{background:#eafbf4;border:1px solid #2ed88e;border-radius:8px;padding:12px 16px;font-size:13px;color:#0a5c3a;margin-bottom:16px;display:flex;gap:8px;align-items:flex-start;}
+
+/* PANEL HEADER */
+.panel-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.panel-title{font-size:17px;font-weight:700;color:#231f20;}
+.panel-sub{font-size:12px;color:#7b959c;margin-top:2px;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <a class="logo" onclick="goListing()">
+    <div class="logo-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#16303d"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20c9 0 12-8 12-8"/><path d="M3.82 21.34C4.22 20.44 5 19.8 6 19.8"/></svg>
+    </div>
+    NEXT-GEN
+  </a>
+  <nav class="nav">
+    <span class="nav-item">Dashboard</span>
+    <span class="nav-item">Product</span>
+    <div class="dropdown-wrap">
+      <span class="nav-item active">Pre-Configuration ▾</span>
+      <div class="dd-menu">
+        <div class="dd-item active" onclick="goListing()">Renewal</div>
+        <div class="dd-item">Forms</div>
+        <div class="dd-item">Coverage</div>
+        <div class="dd-item">Parameters</div>
+      </div>
+    </div>
+  </nav>
+  <div class="hdr-right">
+    <div class="hdr-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dce0e2" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span class="notif">24</span>
+    </div>
+    <div class="lang">EN ▾</div>
+    <div class="avatar">JD</div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════
+     SCREEN 1 — RENEWAL LISTING
+════════════════════════════════════ -->
+<div id="s-listing" class="screen active">
+  <div class="bc">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7b959c" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    <span class="sep">›</span><span class="cur">Renewal</span>
+  </div>
+  <div class="listing-body">
+    <div class="pg-header">
+      <div><div class="pg-title">Renewal</div><div class="pg-sub">Manage bulk policy renewal batches</div></div>
+      <button class="btn btn-primary" onclick="goWizard('new')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Initiate New Renewal
+      </button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat s-blue"><div class="n">12</div><div class="l">Total Batches</div></div>
+      <div class="stat s-yellow"><div class="n">3</div><div class="l">In Progress</div></div>
+      <div class="stat s-white"><div class="n">1,248</div><div class="l">Policies Processed</div></div>
+      <div class="stat s-green"><div class="n">1,194</div><div class="l">Successfully Renewed</div></div>
+      <div class="stat s-pink"><div class="n">54</div><div class="l">Rejected</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">
+        <span class="card-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2ed88e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Renewal Batches
+        </span>
+      </div>
+      <div style="padding:14px 20px 0">
+        <div class="search-row">
+          <input class="si" placeholder="Search by batch ID, product type..."/>
+          <button class="sb">Search</button>
+        </div>
+        <div class="filter-row">
+          <div class="filter-l">
+            <span class="cl-all">Clear All</span>
+            <span class="chip">All Statuses <span class="chip-x">×</span></span>
+            <span class="chip">2025–2026 <span class="chip-x">×</span></span>
+          </div>
+          <div class="filter-r">
+            <button class="tb-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export
+            </button>
+            <button class="tb-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+              Filter
+            </button>
+          </div>
+        </div>
+      </div>
+      <div style="padding:0 20px 20px">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th><input type="checkbox" class="chk"/></th>
+              <th>Batch ID</th><th>Product Type</th><th>Expiry Period</th>
+              <th>Total Policies</th><th>Renewed</th><th>Rejected</th>
+              <th>Initiated Date</th><th>Status</th><th>Actions</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox" class="chk"/></td>
+                <td><span class="lnk" onclick="goWizard('view','completed')">RNW-2025-001</span></td>
+                <td>Motor Insurance</td><td>Jan 2026</td><td>320</td><td>314</td><td>6</td>
+                <td>01 Oct 2025, 09:00 AM</td><td><span class="badge b-completed">Completed</span></td>
+                <td><button class="btn btn-sm btn-outline" onclick="goWizard('view','completed')">View</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="chk"/></td>
+                <td><span class="lnk" onclick="goWizard('view','notices')">RNW-2025-002</span></td>
+                <td>Commercial Insurance</td><td>Feb 2026</td><td>180</td><td>178</td><td>2</td>
+                <td>01 Nov 2025, 09:00 AM</td><td><span class="badge b-notice">Notices Sent</span></td>
+                <td><button class="btn btn-sm btn-outline" onclick="goWizard('view','notices')">View</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="chk"/></td>
+                <td><span class="lnk" onclick="goWizard('view','review')">RNW-2025-003</span></td>
+                <td>Fleet Insurance</td><td>Mar 2026</td><td>95</td><td>—</td><td>—</td>
+                <td>01 Dec 2025, 09:00 AM</td><td><span class="badge b-progress">In Progress</span></td>
+                <td><button class="btn btn-sm btn-green" onclick="goWizard('view','review')">Review</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="chk"/></td>
+                <td><span class="lnk" onclick="goWizard('view','review')">RNW-2025-004</span></td>
+                <td>Health Insurance</td><td>Mar 2026</td><td>220</td><td>—</td><td>—</td>
+                <td>02 Dec 2025, 10:30 AM</td><td><span class="badge b-validated">Validated</span></td>
+                <td><button class="btn btn-sm btn-green" onclick="goWizard('view','review')">Review</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" class="chk"/></td>
+                <td><span class="lnk" onclick="goWizard('view','new')">RNW-2025-005</span></td>
+                <td>Fire Insurance</td><td>Apr 2026</td><td>—</td><td>—</td><td>—</td>
+                <td>03 Jan 2026, 09:00 AM</td><td><span class="badge b-pending">Pending</span></td>
+                <td><button class="btn btn-sm btn-outline" onclick="goWizard('view','new')">View</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pag">
+            <div class="rsel">Rows/page <select><option>10</option><option>25</option></select></div>
+            <div>1 to 5 of 12 records</div>
+            <div class="pag-btns">
+              <button class="pb" disabled>«</button><button class="pb" disabled>‹</button>
+              <button class="pb act">1</button><button class="pb">2</button>
+              <button class="pb">›</button><button class="pb">»</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SCREEN 2 — RENEWAL WIZARD
+════════════════════════════════════ -->
+<div id="s-wizard" class="screen">
+  <!-- Breadcrumb -->
+  <div class="bc">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7b959c" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    <span class="sep">›</span>
+    <a onclick="goListing()">Renewal</a>
+    <span class="sep">›</span>
+    <span class="cur" id="wiz-bc">New Renewal Batch</span>
+  </div>
+
+  <!-- Wizard body -->
+  <div class="wizard">
+    <!-- Sidebar -->
+    <div class="wiz-sidebar">
+      <div class="wiz-sidebar-top">
+        <div class="batch-id" id="wiz-batch-id">New Batch</div>
+        <div class="batch-meta" id="wiz-batch-meta">Configure and submit</div>
+      </div>
+      <div class="steps">
+        <div class="step active" id="stp-1" onclick="goStep(1)">
+          <div class="snum cur" id="sn-1">1</div>
+          <div class="slabel">Bulk Processing</div>
+        </div>
+        <div class="step" id="stp-2" onclick="goStep(2)">
+          <div class="snum todo" id="sn-2">2</div>
+          <div class="slabel">Premium Calculation</div>
+        </div>
+        <div class="step" id="stp-3" onclick="goStep(3)">
+          <div class="snum todo" id="sn-3">3</div>
+          <div class="slabel">AML &amp; Validation</div>
+        </div>
+        <div class="step" id="stp-4" onclick="goStep(4)">
+          <div class="snum todo" id="sn-4">4</div>
+          <div class="slabel">Review &amp; Reject</div>
+        </div>
+        <div class="step" id="stp-5" onclick="goStep(5)">
+          <div class="snum todo" id="sn-5">5</div>
+          <div class="slabel">Renewal Notices</div>
+        </div>
+        <div class="step" id="stp-6" onclick="goStep(6)">
+          <div class="snum todo" id="sn-6">6</div>
+          <div class="slabel">Confirmation Tracking</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main area -->
+    <div class="wiz-main">
+      <div class="wiz-content">
+
+        <!-- ── STEP 1: BULK PROCESSING ── -->
+        <div id="sp-1" class="step-panel active">
+          <div class="panel-hd">
+            <div>
+              <div class="panel-title">Step 1 — Bulk Processing</div>
+              <div class="panel-sub">Configure the renewal batch. System will identify all eligible policies 3 months before expiry.</div>
+            </div>
+          </div>
+          <div class="fs">
+            <div class="fs-hd">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2ed88e" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span class="fs-title">Renewal Configuration</span>
+            </div>
+            <div class="fs-body">
+              <div class="fg">
+                <div class="fgrp">
+                  <label>Product Type <span class="r">*</span></label>
+                  <select class="fsel"><option value="">Select Product Type</option><option>Motor Insurance</option><option>Commercial Insurance</option><option>Fleet Insurance</option><option>Health Insurance</option><option>Fire Insurance</option></select>
+                </div>
+                <div class="fgrp">
+                  <label>Policy Expiry Month <span class="r">*</span></label>
+                  <input class="fi" type="month" value="2026-03"/>
+                </div>
+                <div class="fgrp">
+                  <label>Renewal Run Date <span class="r">*</span></label>
+                  <input class="fi" type="date" value="2025-12-01"/>
+                </div>
+                <div class="fgrp">
+                  <label>Owner Party</label>
+                  <select class="fsel"><option value="">Select Owner</option><option>GIG Insurance</option><option>Oriental Insurance</option></select>
+                </div>
+                <div class="fgrp">
+                  <label>Rate Effective Date <span class="r">*</span></label>
+                  <input class="fi" type="date" value="2026-01-01"/>
+                </div>
+                <div class="fgrp">
+                  <label>AML Check</label>
+                  <select class="fsel"><option>Enabled</option><option>Disabled</option></select>
+                </div>
+              </div>
+              <div class="fgrp full" style="margin-bottom:0">
+                <label>Comments</label>
+                <textarea class="fta" placeholder="Add any notes about this renewal batch..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="fs">
+            <div class="fs-hd">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2ed88e" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span class="fs-title">Eligible Policy Preview</span>
+            </div>
+            <div class="fs-body">
+              <div class="info-box">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0a5c3a" stroke-width="2" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                System will automatically identify all policies expiring in <strong>March 2026</strong>. Estimated count: <strong>220 policies</strong>.
+              </div>
+              <div class="tbl-wrap">
+                <table>
+                  <thead><tr><th>Policy ID</th><th>Insured Name</th><th>Product Type</th><th>Expiry Date</th><th>Current Premium</th></tr></thead>
+                  <tbody>
+                    <tr><td><span class="lnk">PLY-10001</span></td><td>Rajesh Kumar</td><td>Health Insurance</td><td>31 Mar 2026</td><td>₹ 12,500</td></tr>
+                    <tr><td><span class="lnk">PLY-10002</span></td><td>Anita Sharma</td><td>Health Insurance</td><td>31 Mar 2026</td><td>₹ 8,200</td></tr>
+                    <tr><td><span class="lnk">PLY-10003</span></td><td>Mohan Das</td><td>Health Insurance</td><td>31 Mar 2026</td><td>₹ 22,000</td></tr>
+                    <tr><td><span class="lnk">PLY-10004</span></td><td>Priya Nair</td><td>Health Insurance</td><td>31 Mar 2026</td><td>₹ 15,800</td></tr>
+                    <tr><td colspan="5" style="text-align:center;color:#7b959c;font-size:12px;padding:10px">+ 216 more policies</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 2: PREMIUM CALCULATION ── -->
+        <div id="sp-2" class="step-panel">
+          <div class="panel-hd">
+            <div>
+              <div class="panel-title">Step 2 — Premium Calculation</div>
+              <div class="panel-sub">New premiums calculated using rates effective 01 Jan 2026. Review below.</div>
+            </div>
+            <span class="badge b-completed">Calculated</span>
+          </div>
+
+          <div class="sum-strip">
+            <div class="sum-item"><div class="sl">Total Policies</div><div class="sv">220</div></div>
+            <div class="sum-item"><div class="sl">Avg Premium Change</div><div class="sv" style="color:#28a745">+5.4%</div></div>
+            <div class="sum-item"><div class="sl">Lowest New Premium</div><div class="sv">₹ 6,300</div></div>
+            <div class="sum-item"><div class="sl">Highest New Premium</div><div class="sv">₹ 48,000</div></div>
+            <div class="sum-item"><div class="sl">Rate Effective</div><div class="sv">01 Jan 2026</div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Premium Calculation Results</span></div>
+            <div style="padding:14px 20px 0">
+              <div class="search-row">
+                <input class="si" placeholder="Search by policy ID or insured name..."/>
+                <button class="sb">Search</button>
+              </div>
+            </div>
+            <div style="padding:0 20px 20px">
+              <div class="tbl-wrap">
+                <table>
+                  <thead><tr><th><input type="checkbox" class="chk"/></th><th>Policy ID</th><th>Insured Name</th><th>Current Premium</th><th>New Premium</th><th>Change</th><th>Change %</th></tr></thead>
+                  <tbody>
+                    <tr><td><input type="checkbox" class="chk"/></td><td><span class="lnk">PLY-10001</span></td><td>Rajesh Kumar</td><td>₹ 12,500</td><td>₹ 13,200</td><td style="color:#28a745">+₹ 700</td><td style="color:#28a745">+5.6%</td></tr>
+                    <tr><td><input type="checkbox" class="chk"/></td><td><span class="lnk">PLY-10002</span></td><td>Anita Sharma</td><td>₹ 8,200</td><td>₹ 8,700</td><td style="color:#28a745">+₹ 500</td><td style="color:#28a745">+6.1%</td></tr>
+                    <tr><td><input type="checkbox" class="chk"/></td><td><span class="lnk">PLY-10003</span></td><td>Mohan Das</td><td>₹ 22,000</td><td>₹ 23,100</td><td style="color:#28a745">+₹ 1,100</td><td style="color:#28a745">+5.0%</td></tr>
+                    <tr><td><input type="checkbox" class="chk"/></td><td><span class="lnk">PLY-10004</span></td><td>Priya Nair</td><td>₹ 15,800</td><td>₹ 16,600</td><td style="color:#28a745">+₹ 800</td><td style="color:#28a745">+5.1%</td></tr>
+                    <tr><td><input type="checkbox" class="chk"/></td><td><span class="lnk">PLY-10005</span></td><td>Vikram Singh</td><td>₹ 31,500</td><td>₹ 33,075</td><td style="color:#28a745">+₹ 1,575</td><td style="color:#28a745">+5.0%</td></tr>
+                    <tr><td><input type="checkbox" class="chk"/></td><td><span class="lnk">PLY-10006</span></td><td>Sunita Reddy</td><td>₹ 9,400</td><td>₹ 9,870</td><td style="color:#28a745">+₹ 470</td><td style="color:#28a745">+5.0%</td></tr>
+                  </tbody>
+                </table>
+                <div class="pag">
+                  <div class="rsel">Rows/page <select><option>10</option><option>25</option></select></div>
+                  <div>1 to 10 of 220 records</div>
+                  <div class="pag-btns">
+                    <button class="pb" disabled>«</button><button class="pb" disabled>‹</button>
+                    <button class="pb act">1</button><button class="pb">2</button>
+                    <button class="pb">›</button><button class="pb">»</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 3: AML & VALIDATION ── -->
+        <div id="sp-3" class="step-panel">
+          <div class="panel-hd">
+            <div>
+              <div class="panel-title">Step 3 — AML &amp; Validation</div>
+              <div class="panel-sub">Automated checks run across all 220 policies. Review results below.</div>
+            </div>
+            <span class="badge b-validated">Checks Complete</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;">
+            <div class="res-card" style="flex-direction:column;align-items:flex-start;gap:8px;">
+              <div class="res-icon green">✓</div>
+              <div class="res-val" style="color:#28a745">217</div>
+              <div style="font-size:12px;color:#7b959c;">AML Passed</div>
+            </div>
+            <div class="res-card" style="flex-direction:column;align-items:flex-start;gap:8px;">
+              <div class="res-icon yellow">⚠</div>
+              <div class="res-val" style="color:#856404">2</div>
+              <div style="font-size:12px;color:#7b959c;">AML Flagged</div>
+            </div>
+            <div class="res-card" style="flex-direction:column;align-items:flex-start;gap:8px;">
+              <div class="res-icon red">✕</div>
+              <div class="res-val" style="color:#f24456">1</div>
+              <div style="font-size:12px;color:#7b959c;">Payment Failed</div>
+            </div>
+            <div class="res-card" style="flex-direction:column;align-items:flex-start;gap:8px;">
+              <div class="res-icon green">✓</div>
+              <div class="res-val" style="color:#28a745">220</div>
+              <div style="font-size:12px;color:#7b959c;">Data Valid</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Validation Results</span></div>
+            <div style="padding:0 20px 20px;margin-top:16px;">
+              <div class="tabs">
+                <div class="tab active" onclick="switchTab(this,'vt-all')">All (220)</div>
+                <div class="tab" onclick="switchTab(this,'vt-pass')">Passed (217)</div>
+                <div class="tab" onclick="switchTab(this,'vt-flag')">Flagged (2) <span class="tab-dot"></span></div>
+                <div class="tab" onclick="switchTab(this,'vt-fail')">Failed (1) <span class="tab-dot"></span></div>
+              </div>
+              <div id="vt-all" class="tc active">
+                <div class="tbl-wrap">
+                  <table>
+                    <thead><tr><th>Policy ID</th><th>Insured Name</th><th>AML Status</th><th>Payment Status</th><th>Data Validity</th><th>Overall</th></tr></thead>
+                    <tbody>
+                      <tr><td><span class="lnk">PLY-10001</span></td><td>Rajesh Kumar</td><td><span class="badge b-validated">Passed</span></td><td><span class="badge b-validated">Clear</span></td><td><span class="badge b-validated">Valid</span></td><td><span class="badge b-validated">Passed</span></td></tr>
+                      <tr><td><span class="lnk">PLY-10002</span></td><td>Anita Sharma</td><td><span class="badge b-validated">Passed</span></td><td><span class="badge b-validated">Clear</span></td><td><span class="badge b-validated">Valid</span></td><td><span class="badge b-validated">Passed</span></td></tr>
+                      <tr><td><span class="lnk">PLY-10003</span></td><td>Mohan Das</td><td><span class="badge b-notice">Flagged</span></td><td><span class="badge b-validated">Clear</span></td><td><span class="badge b-validated">Valid</span></td><td><span class="badge b-notice">Flagged</span></td></tr>
+                      <tr><td><span class="lnk">PLY-10004</span></td><td>Priya Nair</td><td><span class="badge b-validated">Passed</span></td><td><span class="badge b-validated">Clear</span></td><td><span class="badge b-validated">Valid</span></td><td><span class="badge b-validated">Passed</span></td></tr>
+                      <tr><td><span class="lnk">PLY-10005</span></td><td>Vikram Singh</td><td><span class="badge b-notice">Flagged</span></td><td><span class="badge b-validated">Clear</span></td><td><span class="badge b-validated">Valid</span></td><td><span class="badge b-notice">Flagged</span></td></tr>
+                      <tr><td><span class="lnk">PLY-10006</span></td><td>Sunita Reddy</td><td><span class="badge b-validated">Passed</span></td><td><span class="badge b-rejected">Outstanding</span></td><td><span class="badge b-validated">Valid</span></td><td><span class="badge b-rejected">Failed</span></td></tr>
+                    </tbody>
+                  </table>
+                  <div class="pag">
+                    <div class="rsel">Rows/page <select><option>10</option></select></div>
+                    <div>1 to 10 of 220 records</div>
+                    <div class="pag-btns"><button class="pb" disabled>«</button><button class="pb" disabled>‹</button><button class="pb act">1</button><button class="pb">›</button><button class="pb">»</button></div>
+                  </div>
+                </div>
+              </div>
+              <div id="vt-pass" class="tc"><div style="text-align:center;padding:30px;color:#7b959c;font-size:13px;">217 policies passed all validation checks.</div></div>
+              <div id="vt-flag" class="tc">
+                <div class="warn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#856404" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>These policies have been flagged for AML review. You can still include or exclude them in the next step.</div>
+                <div class="tbl-wrap"><table>
+                  <thead><tr><th>Policy ID</th><th>Insured</th><th>AML Flag Reason</th><th>Risk Level</th></tr></thead>
+                  <tbody>
+                    <tr><td><span class="lnk">PLY-10003</span></td><td>Mohan Das</td><td>High transaction volume in last 6 months</td><td><span class="badge b-notice">Medium</span></td></tr>
+                    <tr><td><span class="lnk">PLY-10005</span></td><td>Vikram Singh</td><td>Name match in sanctions list (pending review)</td><td><span class="badge b-rejected">High</span></td></tr>
+                  </tbody>
+                </table></div>
+              </div>
+              <div id="vt-fail" class="tc">
+                <div class="warn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#856404" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>This policy failed validation and cannot be renewed without resolution.</div>
+                <div class="tbl-wrap"><table>
+                  <thead><tr><th>Policy ID</th><th>Insured</th><th>Failure Reason</th></tr></thead>
+                  <tbody>
+                    <tr><td><span class="lnk">PLY-10006</span></td><td>Sunita Reddy</td><td>Outstanding premium payment of ₹ 4,200 pending since Oct 2025</td></tr>
+                  </tbody>
+                </table></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 4: REVIEW & REJECT ── -->
+        <div id="sp-4" class="step-panel">
+          <div class="panel-hd">
+            <div>
+              <div class="panel-title">Step 4 — Review &amp; Reject</div>
+              <div class="panel-sub">Review all policies. You may reject any policy before notices are sent. Rejected policies will not receive renewal notices.</div>
+            </div>
+          </div>
+
+          <div class="sum-strip">
+            <div class="sum-item"><div class="sl">Total</div><div class="sv">220</div></div>
+            <div class="sum-item"><div class="sl">Approved</div><div class="sv" style="color:#28a745">218</div></div>
+            <div class="sum-item"><div class="sl">Rejected</div><div class="sv" style="color:#f24456">2</div></div>
+            <div class="sum-item"><div class="sl">AML Flagged</div><div class="sv" style="color:#856404">2</div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Policy Review List</span></div>
+            <div style="padding:14px 20px 0">
+              <div class="search-row">
+                <input class="si" placeholder="Search by policy ID or insured name..."/>
+                <button class="sb">Search</button>
+              </div>
+              <div class="tabs">
+                <div class="tab active" onclick="switchTab(this,'rt-all')">All (220)</div>
+                <div class="tab" onclick="switchTab(this,'rt-rej')">Rejected (2) <span class="tab-dot"></span></div>
+              </div>
+            </div>
+            <div style="padding:0 20px 20px">
+              <div id="rt-all" class="tc active">
+                <div class="tbl-wrap">
+                  <table>
+                    <thead><tr><th><input type="checkbox" class="chk"/></th><th>Policy ID</th><th>Insured Name</th><th>New Premium</th><th>AML</th><th>Renewal Status</th><th>Action</th></tr></thead>
+                    <tbody>
+                      <tr><td><input type="checkbox" class="chk"/></td><td><span class="lnk">PLY-10001</span></td><td>Rajesh Kumar</td><td>₹ 13,200</td><td><span class="badge b-validated">Passed</span></td><td><span class="badge b-validated">Approved</span></td><td><button class="btn btn-sm btn-danger" onclick="showModal('rejectModal')">Reject</button></td></tr>
+                      <tr><td><input type="checkbox" class="chk"/></td><td><span class="lnk">PLY-10002</span></td><td>Anita Sharma</td><td>₹ 8,700</td><td><span class="badge b-validated">Passed</span></td><td><span class="badge b-validated">Approved</span></td><td><button class="btn btn-sm btn-danger" onclick="showModal('rejectModal')">Reject</button></td></tr>
+                      <tr><td><input type="checkbox" class="chk"/></td><td><span class="lnk">PLY-10003</span></td><td>Mohan Das</td><td>₹ 23,100</td><td><span class="badge b-notice">Flagged</span></td><td><span class="badge b-rejected">Rejected</span></td><td><span style="font-size:11px;color:#7b959c;">High claims</span></td></tr>
+                      <tr><td><input type="checkbox" class="chk"/></td><td><span class="lnk">PLY-10004</span></td><td>Priya Nair</td><td>₹ 16,600</td><td><span class="badge b-validated">Passed</span></td><td><span class="badge b-validated">Approved</span></td><td><button class="btn btn-sm btn-danger" onclick="showModal('rejectModal')">Reject</button></td></tr>
+                      <tr><td><input type="checkbox" class="chk"/></td><td><span class="lnk">PLY-10005</span></td><td>Vikram Singh</td><td>₹ 33,075</td><td><span class="badge b-notice">Flagged</span></td><td><span class="badge b-pending">Pending Review</span></td><td><button class="btn btn-sm btn-outline">Review AML</button></td></tr>
+                      <tr><td><input type="checkbox" class="chk"/></td><td><span class="lnk">PLY-10006</span></td><td>Sunita Reddy</td><td>₹ 9,870</td><td><span class="badge b-validated">Passed</span></td><td><span class="badge b-rejected">Rejected</span></td><td><span style="font-size:11px;color:#7b959c;">Outstanding payment</span></td></tr>
+                    </tbody>
+                  </table>
+                  <div class="pag">
+                    <div class="rsel">Rows/page <select><option>10</option></select></div>
+                    <div>1 to 10 of 220 records</div>
+                    <div class="pag-btns"><button class="pb" disabled>«</button><button class="pb" disabled>‹</button><button class="pb act">1</button><button class="pb">›</button><button class="pb">»</button></div>
+                  </div>
+                </div>
+              </div>
+              <div id="rt-rej" class="tc">
+                <div class="warn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#856404" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>2 policies rejected. These will not receive renewal notices.</div>
+                <div class="tbl-wrap"><table>
+                  <thead><tr><th>Policy ID</th><th>Insured Name</th><th>New Premium</th><th>Reason</th><th>Rejected By</th><th>Rejected On</th><th>Action</th></tr></thead>
+                  <tbody>
+                    <tr><td><span class="lnk">PLY-10003</span></td><td>Mohan Das</td><td>₹ 23,100</td><td>High claim history</td><td>Admin – John</td><td>03 Dec 2025</td><td><button class="btn btn-sm btn-outline" onclick="showModal('reinstateModal')">Reinstate</button></td></tr>
+                    <tr><td><span class="lnk">PLY-10006</span></td><td>Sunita Reddy</td><td>₹ 9,870</td><td>Outstanding payment</td><td>Admin – John</td><td>03 Dec 2025</td><td><button class="btn btn-sm btn-outline" onclick="showModal('reinstateModal')">Reinstate</button></td></tr>
+                  </tbody>
+                </table></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 5: RENEWAL NOTICES ── -->
+        <div id="sp-5" class="step-panel">
+          <div class="panel-hd">
+            <div>
+              <div class="panel-title">Step 5 — Renewal Notices</div>
+              <div class="panel-sub">Preview and send renewal notices to 218 approved insured parties.</div>
+            </div>
+            <button class="btn btn-primary" onclick="showModal('sendModal')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Send All Notices
+            </button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start">
+            <!-- Notice preview -->
+            <div class="notice-box">
+              <div class="n-logo">🌿 NEXT-GEN Pysurance</div>
+              <div class="n-date">Date: 03 December 2025</div>
+              <div class="n-to"><strong>To:</strong> Rajesh Kumar<br/>123, MG Road, Bengaluru – 560001<br/>rajesh.kumar@email.com</div>
+              <div class="n-body">
+                <strong>Subject: Renewal Notice for Policy PLY-10001</strong><br/><br/>
+                Dear Mr. Rajesh Kumar,<br/><br/>
+                Your <strong>Health Insurance</strong> policy is due for renewal on <strong>31 March 2026</strong>. We would like to offer the renewal under updated terms. Please find the details below:
+              </div>
+              <table class="n-tbl">
+                <thead><tr><th>Detail</th><th>Current Policy</th><th>Renewal Policy</th></tr></thead>
+                <tbody>
+                  <tr><td>Policy Number</td><td>PLY-10001</td><td>PLY-10001-R</td></tr>
+                  <tr><td>Policy Period</td><td>01 Apr 2025 – 31 Mar 2026</td><td>01 Apr 2026 – 31 Mar 2027</td></tr>
+                  <tr><td>Sum Insured</td><td>₹ 5,00,000</td><td>₹ 5,00,000</td></tr>
+                  <tr><td>Annual Premium</td><td>₹ 12,500</td><td><strong>₹ 13,200</strong></td></tr>
+                  <tr><td>GST (18%)</td><td>₹ 2,250</td><td>₹ 2,376</td></tr>
+                  <tr><td>Total Payable</td><td>₹ 14,750</td><td><strong>₹ 15,576</strong></td></tr>
+                </tbody>
+              </table>
+              <div class="n-body">Please confirm your acceptance by <strong>15 March 2026</strong> via our portal or by contacting support.</div>
+              <div class="n-sig">Yours sincerely,<br/><strong>Renewal Team</strong><br/>NEXT-GEN Pysurance Pvt. Ltd.</div>
+            </div>
+
+            <!-- Policy list to send -->
+            <div>
+              <div class="card" style="margin-bottom:12px">
+                <div class="card-hd"><span class="card-title">Send Configuration</span></div>
+                <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+                  <div class="fgrp">
+                    <label>Send via</label>
+                    <select class="fsel"><option>Email + Portal notification</option><option>Email only</option><option>Portal only</option></select>
+                  </div>
+                  <div class="fgrp">
+                    <label>Confirm By Date <span class="r">*</span></label>
+                    <input class="fi" type="date" value="2026-03-15"/>
+                  </div>
+                  <div style="font-size:12px;color:#7b959c;padding:10px;background:#f8f8f8;border-radius:8px">
+                    📨 <strong>218 notices</strong> will be sent.<br/>
+                    ❌ <strong>2 policies</strong> excluded (rejected).
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-hd"><span class="card-title">Policy Preview List</span></div>
+                <div style="max-height:260px;overflow-y:auto">
+                  <table style="width:100%;border-collapse:collapse;font-size:12px">
+                    <thead><tr style="background:#e8eaec"><th style="padding:8px 12px;text-align:left">Policy</th><th style="padding:8px 12px;text-align:left">Insured</th><th style="padding:8px 12px">Status</th></tr></thead>
+                    <tbody>
+                      <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px 12px"><span class="lnk">PLY-10001</span></td><td style="padding:8px 12px">Rajesh Kumar</td><td style="padding:8px 12px"><span class="badge b-validated" style="font-size:10px">Ready</span></td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px 12px"><span class="lnk">PLY-10002</span></td><td style="padding:8px 12px">Anita Sharma</td><td style="padding:8px 12px"><span class="badge b-validated" style="font-size:10px">Ready</span></td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px 12px"><span class="lnk">PLY-10003</span></td><td style="padding:8px 12px">Mohan Das</td><td style="padding:8px 12px"><span class="badge b-rejected" style="font-size:10px">Excluded</span></td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px 12px"><span class="lnk">PLY-10004</span></td><td style="padding:8px 12px">Priya Nair</td><td style="padding:8px 12px"><span class="badge b-validated" style="font-size:10px">Ready</span></td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px 12px"><span class="lnk">PLY-10005</span></td><td style="padding:8px 12px">Vikram Singh</td><td style="padding:8px 12px"><span class="badge b-validated" style="font-size:10px">Ready</span></td></tr>
+                      <tr style="border-bottom:1px solid #f0f0f0"><td style="padding:8px 12px"><span class="lnk">PLY-10006</span></td><td style="padding:8px 12px">Sunita Reddy</td><td style="padding:8px 12px"><span class="badge b-rejected" style="font-size:10px">Excluded</span></td></tr>
+                      <tr><td style="padding:8px 12px;color:#7b959c;font-size:11px" colspan="3">+ 212 more policies</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STEP 6: CONFIRMATION TRACKING ── -->
+        <div id="sp-6" class="step-panel">
+          <div class="panel-hd">
+            <div>
+              <div class="panel-title">Step 6 — Confirmation Tracking</div>
+              <div class="panel-sub">218 notices sent on 03 Dec 2025. Track insured responses and policy renewals below.</div>
+            </div>
+            <span class="badge b-notice">Notices Sent</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
+            <div class="stat s-blue"><div class="n">218</div><div class="l">Notices Sent</div></div>
+            <div class="stat s-green"><div class="n">142</div><div class="l">Confirmed &amp; Renewed</div></div>
+            <div class="stat s-pink"><div class="n">18</div><div class="l">Declined</div></div>
+            <div class="stat s-white"><div class="n">58</div><div class="l">Awaiting Response</div></div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px">
+            <div style="padding:16px 20px">
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:#7b959c;margin-bottom:6px"><span>Overall Renewal Progress</span><span>142 / 218 confirmed (65%)</span></div>
+              <div class="prog-wrap"><div class="prog-bar" style="width:65%"></div></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-hd"><span class="card-title">Policy Confirmation Status</span></div>
+            <div style="padding:14px 20px 0">
+              <div class="search-row">
+                <input class="si" placeholder="Search by policy ID or insured name..."/>
+                <button class="sb">Search</button>
+                <div style="margin-left:auto;display:flex;gap:4px">
+                  <button class="tb-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> Filter</button>
+                </div>
+              </div>
+            </div>
+            <div style="padding:0 20px 20px">
+              <div class="tbl-wrap">
+                <table>
+                  <thead><tr><th>Policy ID</th><th>Insured Name</th><th>Old Premium</th><th>New Premium</th><th>Notice Sent</th><th>Response</th><th>Renewed On</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td><span class="lnk">PLY-10001</span></td><td>Rajesh Kumar</td><td>₹ 12,500</td><td>₹ 13,200</td><td>03 Dec 2025</td><td>Confirmed</td><td>10 Dec 2025</td><td><span class="badge b-renewed">Renewed</span></td></tr>
+                    <tr><td><span class="lnk">PLY-10002</span></td><td>Anita Sharma</td><td>₹ 8,200</td><td>₹ 8,700</td><td>03 Dec 2025</td><td>Confirmed</td><td>12 Dec 2025</td><td><span class="badge b-renewed">Renewed</span></td></tr>
+                    <tr><td><span class="lnk">PLY-10004</span></td><td>Priya Nair</td><td>₹ 15,800</td><td>₹ 16,600</td><td>03 Dec 2025</td><td>Declined</td><td>—</td><td><span class="badge b-rejected">Not Renewed</span></td></tr>
+                    <tr><td><span class="lnk">PLY-10005</span></td><td>Vikram Singh</td><td>₹ 31,500</td><td>₹ 33,075</td><td>03 Dec 2025</td><td>—</td><td>—</td><td><span class="badge b-awaiting">Awaiting</span></td></tr>
+                    <tr><td><span class="lnk">PLY-10007</span></td><td>Arjun Mehta</td><td>₹ 19,000</td><td>₹ 19,950</td><td>03 Dec 2025</td><td>—</td><td>—</td><td><span class="badge b-awaiting">Awaiting</span></td></tr>
+                    <tr><td><span class="lnk">PLY-10008</span></td><td>Kavitha Rao</td><td>₹ 11,200</td><td>₹ 11,760</td><td>03 Dec 2025</td><td>Confirmed</td><td>15 Dec 2025</td><td><span class="badge b-renewed">Renewed</span></td></tr>
+                  </tbody>
+                </table>
+                <div class="pag">
+                  <div class="rsel">Rows/page <select><option>10</option></select></div>
+                  <div>1 to 10 of 218 records</div>
+                  <div class="pag-btns"><button class="pb" disabled>«</button><button class="pb" disabled>‹</button><button class="pb act">1</button><button class="pb">›</button><button class="pb">»</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /wiz-content -->
+
+      <!-- Footer -->
+      <div class="wiz-footer">
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-outline" onclick="goListing()">← Back to Listing</button>
+          <button class="btn btn-outline" id="btn-save-draft">Save Draft</button>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-outline" id="btn-prev" onclick="prevStep()" style="display:none">‹ Previous</button>
+          <button class="btn btn-primary" id="btn-next" onclick="nextStep()">Submit &amp; Continue →</button>
+        </div>
+      </div>
+    </div><!-- /wiz-main -->
+  </div><!-- /wizard -->
+</div><!-- /s-wizard -->
+
+<!-- ════════════════════════════════════
+     MODALS
+════════════════════════════════════ -->
+<div class="overlay" id="rejectModal">
+  <div class="modal">
+    <div class="m-hd"><span class="m-title">Reject Policy from Renewal</span><button class="m-close" onclick="hideModal('rejectModal')">×</button></div>
+    <div class="m-body">
+      <div class="warn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#856404" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>This policy will be excluded. No renewal notice will be sent to the insured.</div>
+      <div class="fgrp" style="margin-bottom:14px"><label>Policy ID</label><input class="fi" value="PLY-10001" disabled/></div>
+      <div class="fgrp" style="margin-bottom:14px"><label>Rejection Reason <span class="r">*</span></label><select class="fsel"><option value="">Select reason</option><option>High claim history</option><option>Outstanding payment</option><option>Fraud / AML risk</option><option>Underwriting risk too high</option><option>Other</option></select></div>
+      <div class="fgrp"><label>Comments</label><textarea class="fta" placeholder="Add any additional notes..."></textarea></div>
+    </div>
+    <div class="m-ft">
+      <button class="btn btn-outline" onclick="hideModal('rejectModal')">Cancel</button>
+      <button class="btn btn-danger" onclick="hideModal('rejectModal')">Confirm Rejection</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="reinstateModal">
+  <div class="modal">
+    <div class="m-hd"><span class="m-title">Reinstate Policy</span><button class="m-close" onclick="hideModal('reinstateModal')">×</button></div>
+    <div class="m-body">
+      <p style="font-size:13px;color:#231f20;margin-bottom:16px">Reinstating <strong>PLY-10003</strong> will include it back in the renewal batch and a notice will be sent to the insured.</p>
+      <div class="fgrp"><label>Reason for Reinstatement</label><textarea class="fta" placeholder="Provide reason..."></textarea></div>
+    </div>
+    <div class="m-ft">
+      <button class="btn btn-outline" onclick="hideModal('reinstateModal')">Cancel</button>
+      <button class="btn btn-green" onclick="hideModal('reinstateModal')">Reinstate Policy</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="sendModal">
+  <div class="modal">
+    <div class="m-hd"><span class="m-title">Confirm — Send Renewal Notices</span><button class="m-close" onclick="hideModal('sendModal')">×</button></div>
+    <div class="m-body">
+      <p style="font-size:13px;color:#231f20;margin-bottom:16px">You are about to send renewal notices to <strong>218 insured parties</strong>. This action cannot be undone.</p>
+      <div style="background:#f8f8f8;border-radius:8px;padding:14px;font-size:13px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between"><span style="color:#7b959c">Send via</span><strong>Email + Portal</strong></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#7b959c">Notices to send</span><strong>218</strong></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#7b959c">Excluded (rejected)</span><strong>2</strong></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#7b959c">Confirm by</span><strong>15 Mar 2026</strong></div>
+      </div>
+    </div>
+    <div class="m-ft">
+      <button class="btn btn-outline" onclick="hideModal('sendModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="hideModal('sendModal');goStep(6)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Confirm &amp; Send
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentStep = 1;
+const totalSteps = 6;
+
+function goListing() {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('s-listing').classList.add('active');
+}
+
+function goWizard(mode, startAt) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('s-wizard').classList.add('active');
+
+  if (mode === 'new') {
+    currentStep = 1;
+    document.getElementById('wiz-bc').textContent = 'New Renewal Batch';
+    document.getElementById('wiz-batch-id').textContent = 'New Batch';
+    document.getElementById('wiz-batch-meta').textContent = 'Configure and submit';
+    // Reset all steps to todo
+    for (let i = 1; i <= totalSteps; i++) {
+      setStepStyle(i, i === 1 ? 'cur' : 'todo');
+    }
+    goStep(1);
+  } else {
+    // View existing batch
+    document.getElementById('wiz-bc').textContent = 'RNW-2025-004';
+    document.getElementById('wiz-batch-id').textContent = 'RNW-2025-004';
+    document.getElementById('wiz-batch-meta').textContent = 'Health Insurance · Mar 2026';
+
+    let step = 4;
+    if (startAt === 'completed') step = 6;
+    else if (startAt === 'notices') step = 6;
+    else if (startAt === 'review') step = 4;
+    else step = 1;
+
+    // Mark completed steps as done
+    for (let i = 1; i <= totalSteps; i++) {
+      if (i < step) setStepStyle(i, 'done');
+      else if (i === step) setStepStyle(i, 'cur');
+      else setStepStyle(i, 'todo');
+    }
+    currentStep = step;
+    goStep(step);
+  }
+}
+
+function setStepStyle(n, type) {
+  const sn = document.getElementById('sn-' + n);
+  const st = document.getElementById('stp-' + n);
+  sn.className = 'snum ' + type;
+  st.className = 'step' + (type === 'done' ? ' done-step' : '') + (type === 'cur' ? ' active' : '');
+  if (type === 'done') sn.textContent = '✓';
+  else sn.textContent = n;
+}
+
+function goStep(n) {
+  currentStep = n;
+  // Hide all panels
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('sp-' + n).classList.add('active');
+
+  // Update sidebar
+  for (let i = 1; i <= totalSteps; i++) {
+    const sn = document.getElementById('sn-' + i);
+    const st = document.getElementById('stp-' + i);
+    if (i < n) {
+      sn.className = 'snum done'; sn.textContent = '✓';
+      st.className = 'step done-step';
+    } else if (i === n) {
+      sn.className = 'snum cur'; sn.textContent = i;
+      st.className = 'step active';
+    } else {
+      sn.className = 'snum todo'; sn.textContent = i;
+      st.className = 'step';
+    }
+  }
+
+  // Update footer buttons
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  btnPrev.style.display = n > 1 ? 'inline-flex' : 'none';
+
+  if (n === 4) {
+    btnNext.textContent = 'Approve & Proceed →';
+  } else if (n === 5) {
+    btnNext.textContent = 'Send Notices →';
+    btnNext.onclick = () => showModal('sendModal');
+  } else if (n === 6) {
+    btnNext.textContent = 'Mark as Complete';
+    btnNext.onclick = () => alert('Batch marked as complete!');
+  } else {
+    btnNext.textContent = 'Submit & Continue →';
+    btnNext.onclick = nextStep;
+  }
+}
+
+function nextStep() {
+  if (currentStep < totalSteps) goStep(currentStep + 1);
+}
+
+function prevStep() {
+  if (currentStep > 1) goStep(currentStep - 1);
+}
+
+function showModal(id) { document.getElementById(id).classList.add('open'); }
+function hideModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
+});
+
+function switchTab(el, id) {
+  const parent = el.closest('.tabs');
+  parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const content = el.closest('.card') || el.closest('.step-panel') || el.parentElement.parentElement;
+  content.querySelectorAll('.tc').forEach(c => c.classList.remove('active'));
+  const target = document.getElementById(id);
+  if (target) target.classList.add('active');
+}
+</script>
+</body>
+</html>
